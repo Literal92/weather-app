@@ -1,0 +1,14 @@
+{
+    "Currentweather": "Current weather in your city",
+    "Yourcityname": "Your city name",
+    "weather": "weather",
+    "lastupdate": "last update at",
+    "Wind": "Wind",
+    "Windspeed": "Wind speed",
+    "Humidity": "Humidity",
+    "Pressure": "Pressure",
+    "Cloudiness": "Cloudiness",
+    "Sunrise": "Sunrise",
+    "Sunset": "Sunset",
+    "NotFound": "Sorry, but the city was not found."
+}

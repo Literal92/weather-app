@@ -3,7 +3,7 @@
       <a href="/" class="header__logo">
         <span class="wi wi-day-sunny"></span>
       </a>
-      <h1 class="header__brand">weather</h1>
+      <h1 class="header__brand">{{ 'weather' | translate}}</h1>
       <div class="header__right-block">
         C
         <ui-switch
@@ -14,6 +14,17 @@
           (change)="onChangeUnitSwitcher()">
         </ui-switch>
         F
+      </div>
+      <div class="header__right-block">
+        EN
+        <ui-switch
+          class="header__unit-switcher"
+          size="small"
+          color="#B5B5B5"
+          [(ngModel)]="isLangFr"
+          (change)="changeLanguage()">
+        </ui-switch>
+        FR
       </div>
   </div>
 </div>

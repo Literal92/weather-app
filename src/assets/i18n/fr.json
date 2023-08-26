@@ -1,0 +1,14 @@
+{
+    "Currentweather": "Météo actuelle dans votre ville",
+    "Yourcityname": "Le nom de ta ville",
+    "weather": "météo",
+    "lastupdate": "dernière mise à jour à",
+    "Wind": "Vent",
+    "Windspeed": "Vitesse du vent",
+    "Humidity": "Humidité",
+    "Pressure": "Pression",
+    "Cloudiness": "Nébulosité",
+    "Sunrise": "Lever du soleil",
+    "Sunset": "Coucher de soleil",
+    "NotFound": "Désolé, mais la ville n'a pas été trouvée."
+}

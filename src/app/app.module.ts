@@ -1,6 +1,6 @@
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS, } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -25,7 +25,15 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { WeatherReducer } from './store/weather.reducer';
 import { WeatherEffects } from './store/weather.effects';
+import localeFr from '@angular/common/locales/fr';
+import localeEs from '@angular/common/locales/es';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+ // Create a function for the translation loader
+ export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,9 +51,17 @@ import { WeatherEffects } from './store/weather.effects';
     AppRoutingModule,
     HttpClientModule,
     UiSwitchModule,
-    StoreModule.forRoot(WeatherReducer), 
+    StoreModule.forRoot(WeatherReducer),
     StoreModule.forFeature('Weather', WeatherReducer),
-    EffectsModule.forRoot(WeatherEffects)
+    EffectsModule.forRoot(WeatherEffects),
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     AppService,
@@ -66,10 +82,11 @@ import { WeatherEffects } from './store/weather.effects';
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: () => () => {},
+      useFactory: () => () => { },
       deps: [Sentry.TraceService],
       multi: true,
     },
+    { provide: LOCALE_ID, useValue: 'en-US' }
   ],
   bootstrap: [AppComponent]
 })

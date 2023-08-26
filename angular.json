@@ -27,7 +27,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "messages.*.xlf",
+                "input": "src/locale",
+                "output": "./locale"
+              }
             ],
             "styles": [
               "src/styles/styles.scss",
@@ -98,6 +103,13 @@
             ],
             "scripts": []
           }
+        }
+      },
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "fr": "src/locale/messages.fr.xlf",
+          "es": "src/locale/messages.es.xlf"
         }
       }
     }

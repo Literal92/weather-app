@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { appConfig, apiConfig } from '../../config';
 
@@ -12,6 +13,10 @@ export class HeaderComponent implements OnInit {
   @Output() changeUnit: EventEmitter<string> = new EventEmitter();
 
   isUnitSwitcherChecked = false;
+  isLangFr = false;
+  constructor(
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.isUnitSwitcherChecked = this.currentUnitSystem === appConfig.defaultUnit;
@@ -22,5 +27,9 @@ export class HeaderComponent implements OnInit {
     const unitIndex = this.isUnitSwitcherChecked ? 1 : 0;
 
     this.changeUnit.emit(unitSystems[unitIndex]);
+  }
+
+  changeLanguage() {
+    this.isLangFr ? this.translate.use('en') : this.translate.use('fr');
   }
 }

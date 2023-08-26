@@ -1,8 +1,8 @@
 <div class="city-card" *ngIf="weather">
-  <h2 class="city-card__header"> Current weather in your city</h2>
+  <h2 class="city-card__header">{{ 'Currentweather' | translate}}</h2>
   <div class="city-card__box">
     <div class="city-card__updated-label">
-      last update at:
+      {{ 'lastupdate' | translate }}:
       <span>{{weather.updateAt | date: 'HH:mm:ss'}}</span>
     </div>
     <div class="city-card__sky-icon">
@@ -29,30 +29,31 @@
     <div class="city-card__info">
       <div class="city-card__info-list">
         <div class="city-card__info-list-item">
-          <strong>Wind:</strong>
+          <strong>{{ 'Wind' | translate }}:</strong>
           <span *ngIf="weather.windDirection">{{ weather.windDirection | lowercase }},</span>
           {{ weather.windBeaufortScale | lowercase }}
         </div>
         <div class="city-card__info-list-item">
-          <strong>Wind speed:</strong> {{ weather.windSpeed }} {{ measureOfWindSpeed }}
+          <strong>{{ 'Windspeed' | translate }}:</strong> {{ weather.windSpeed }} {{ measureOfWindSpeed }}
         </div>
         <div class="city-card__info-list-item">
-          <strong>Humidity:</strong>
+          <strong>{{ 'Humidity' | translate }}:</strong>
           <span *ngIf="weather.humidity">{{ weather.humidity }}%</span>
         </div>
         <div class="city-card__info-list-item">
-          <strong>Pressure:</strong> {{ weather.pressure }} {{ measureOfPressure }}
+          <strong>{{ 'Pressure' | translate }}:</strong> {{ weather.pressure }} {{ measureOfPressure }}
         </div>
       </div>
       <div class="city-card__info-list">
         <div class="city-card__info-list-item">
-          <strong>Cloudiness:</strong> {{ weather.description }}
+          <strong>{{ 'Cloudiness' | translate }}:</strong> {{ weather.description }}
         </div>
         <div class="city-card__info-list-item">
-          <strong>Sunrise:</strong> {{ weather.sunrise | date: 'HH:mm' }}
+          <strong>{{ 'Sunrise' | translate }}:</strong> {{ weather.sunrise | date: 'HH:mm' }}
         </div>
         <div class="city-card__info-list-item">
-          <strong>Sunset:</strong> {{ weather.sunset | date: 'HH:mm' }}</div>
+          <strong>{{ 'Sunset' | translate }}:</strong> {{ weather.sunset | date: 'HH:mm' }}
+        </div>
       </div>
     </div>
   </div>

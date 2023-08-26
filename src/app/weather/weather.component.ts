@@ -39,5 +39,4 @@ export class WeatherComponent implements OnInit {
       this.weather = data;
     });
   }
-
 }
