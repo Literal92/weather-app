@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppService } from './shared/services/app.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-lastest';
+  unitSystem: string;
+
+  constructor(
+    private appService: AppService
+  ) { }
+
+  ngOnInit() {
+    this.unitSystem = this.appService.getUnitSystem();
+  }
+
+  changeUnit(unitSystem: string) {
+    this.appService.updateUnitSystem(unitSystem);
+  }
 }
