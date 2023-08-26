@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { LocalStorageService } from './localstorage.service';
-import { appConfig } from '../../config';
+import { appConfig } from '../config';
 
 @Injectable()
 export class AppService {

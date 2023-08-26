@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 
-import { AppService } from '../shared/services/app.service';
-import { LoaderService } from '../loader/loader.service';
-import { HelperService } from '../shared/services/helper.service';
-import { WeatherIconsService } from '../shared/services/weather-icons/weather-icons.service';
+import { AppService } from './app.service';
+import { LoaderService } from './loader.service';
+import { HelperService } from './helper.service';
+import { WeatherIconsService } from '../shared/weather-icons.service';
 
-import { Weather } from './weather';
+import { Weather } from '../interfaces/weather';
 import { apiConfig, appConfig } from '../config';
-import * as wiDataByCode from '../shared/services/weather-icons/weather-icons-codes.data.json';
+import * as wiDataByCode from '../shared/weather-icons-codes.data.json';
 import { catchError, interval, map, Observable, startWith, Subject, switchMap, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 
@@ -49,11 +49,17 @@ export class WeatherService {
       this.subscribers.city = this.getWeatherByLocation(
         appConfig.defaultCity.coord.latitude,
         appConfig.defaultCity.coord.longitude
-      ).subscribe((weather: any) => {
-        resolve(weather.city);
+      ).subscribe(
+        (weather: any) => {
+          this.hideLoader();
+          resolve(weather.city);
 
-        this.hideLoader();
-      });
+        },
+        (error) => {
+          this.hideLoader();
+          reject(error);
+        }
+      );
     });
   }
 
@@ -66,12 +72,12 @@ export class WeatherService {
     return new Promise((resolve, reject) => {
       this.subscribers.city = this.getWeatherByCity(city).subscribe(
         (weather) => {
-          resolve(weather);
           this.hideLoader();
+          resolve(weather);
         },
         (error) => {
-          reject(error);
           this.hideLoader();
+          reject(error);
         }
       );
     });
