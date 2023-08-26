@@ -10,18 +10,18 @@ const initialState: WeatherState = {
 export const GetWeatherFeatureState = createFeatureSelector<WeatherState>('Weather');
 export const GetWeatherInfo = createSelector(
     GetWeatherFeatureState,
-    state => state.Weather
+    state => state?.Weather
 );
 
 export function WeatherReducer(state = initialState, action: WeatherActions): WeatherState {
     switch (action.type) {
         case WeatherActionTypes.LOAD_WEATHER_SUCCESS:
             return {
-                ...state,
                 Weather: action.payload
             };
 
         default:
-            return state;
+            return null;
     }
+    
 }

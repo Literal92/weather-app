@@ -18,6 +18,7 @@ export class WeatherComponent implements OnInit {
   private _weatherSubscription: Subscription;
   weather: Weather;
   unitSystem: string;
+  city: string;
 
   constructor(
     private appService: AppService,
@@ -28,13 +29,15 @@ export class WeatherComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.data.subscribe(
-      (data: { weather: Weather }) => {
-        this.weather = data.weather;
+    this.route.params.subscribe(
+      (data: { city: string }) => {
+        this.store.dispatch(new WeatherActions.LoadWeather(data.city));
       }
     );
 
-    this.store.dispatch(new WeatherActions.LoadWeather());
+    this.store.pipe(select(weatherReducer.GetWeatherInfo)).subscribe((data) => {
+      this.weather = data;
+    });
   }
 
 }

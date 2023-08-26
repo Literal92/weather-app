@@ -38,41 +38,9 @@ export class WeatherService {
     return this.currentWeatherTimestamp;
   }
 
-  getWeatherByСurrentLocation(): Promise<any> {
-    this.showLoader();
-    if (this.subscribers.city) {
-      this.subscribers.city.unsubscribe();
-    }
-
-    return new Promise((resolve, reject) => {
-      this.subscribers.city = this.getWeatherByLocation(
-        appConfig.defaultCity.coord.latitude,
-        appConfig.defaultCity.coord.longitude
-      ).subscribe(
-        (weather: any) => {
-          this.hideLoader();
-          resolve(weather.city);
-
-        });
-    });
-  }
-
-  createResponseWeatherByCity(city: string): Promise<any> {
-    this.showLoader();
-    if (this.subscribers.city) {
-      this.subscribers.city.unsubscribe();
-    }
-
-    return new Promise((resolve, reject) => {
-      this.subscribers.city = this.getWeatherByCity(city).subscribe(
-        (weather) => {
-          this.hideLoader();
-          resolve(weather);
-        });
-    });
-  }
-
-  getWeatherByLocation(latitude: number, longitude: number): Observable<any> {
+  getWeatherByLocation() {
+    const latitude = appConfig.defaultCity.coord.latitude;
+    const longitude = appConfig.defaultCity.coord.longitude;
     return interval(this.weatherUpdateInterval).pipe(
       startWith(0),
       switchMap(() =>
@@ -80,7 +48,9 @@ export class WeatherService {
           `${apiConfig.host}/weather?appid=${apiConfig.appId}&lat=${latitude}&lon=${longitude}&units=${this.unitSystem}`
         ).pipe(
           map((data: any) => {
+            this.loaderService.hide();
             const weather = this.handleResponseWeatherData(data);
+
             this.weather.next(weather);
             return weather;
           })
@@ -90,21 +60,27 @@ export class WeatherService {
   }
 
   getWeatherByCity(city: string): Observable<any> {
-    return interval(this.weatherUpdateInterval).pipe(
-      startWith(0),
-      switchMap(() =>
-        this.http.get(
-          `${apiConfig.host}/weather?appid=${apiConfig.appId}&q=${city}&units=${this.unitSystem}`
-        ).pipe(
-          map((data) => {
-            const weather = this.handleResponseWeatherData(data);
+    this.loaderService.show();
+    if (city) {
+      return interval(this.weatherUpdateInterval).pipe(
+        startWith(0),
+        switchMap(() =>
+          this.http.get(
+            `${apiConfig.host}/weather?appid=${apiConfig.appId}&q=${city}&units=${this.unitSystem}`
+          ).pipe(
+            map((data) => {
+              this.loaderService.hide();
+              const weather = this.handleResponseWeatherData(data);
 
-            this.weather.next(weather);
-            return weather;
-          })
+              this.weather.next(weather);
+              return weather;
+            })
+          )
         )
-      )
-    );
+      );
+    } else {
+      return this.getWeatherByLocation();
+    }
   }
 
   private handleResponseWeatherData(responseData: any): Weather {
@@ -139,13 +115,5 @@ export class WeatherService {
       wind.speed,
       windBeaufortScale
     );
-  }
-
-  private showLoader(): void {
-    this.loaderService.show();
-  }
-
-  private hideLoader(): void {
-    this.loaderService.hide();
   }
 }

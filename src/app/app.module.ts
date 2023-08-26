@@ -10,13 +10,11 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { WeatherComponent } from './weather/weather.component';
 import { WeatherService } from './services/weather.service';
 import { ErrorComponent } from './components/error/error.component';
-import { CityCardResolver } from './services/city-card-resolver.service';
 import { FormsModule } from '@angular/forms';
 import { CityCardComponent } from './components/city-card/city-card.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { AppService } from './services/app.service';
 import { LocalStorageService } from './services/localstorage.service';
-import { ResolveLocationService } from './services/resolve-location.service';
 import { LoaderService } from './services/loader.service';
 import { HelperService } from './services/helper.service';
 import { WeatherIconsService } from './shared/weather-icons.service';
@@ -45,15 +43,13 @@ import { WeatherEffects } from './store/weather.effects';
     AppRoutingModule,
     HttpClientModule,
     UiSwitchModule,
-    StoreModule.forRoot({}), 
-    StoreModule.forFeature('weater-app', WeatherReducer),
+    StoreModule.forRoot(WeatherReducer), 
+    StoreModule.forFeature('Weather', WeatherReducer),
     EffectsModule.forRoot(WeatherEffects)
   ],
   providers: [
     AppService,
     LocalStorageService,
-    CityCardResolver,
-    ResolveLocationService,
     WeatherService,
     LoaderService,
     HelperService,

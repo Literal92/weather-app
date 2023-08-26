@@ -4,6 +4,8 @@ import * as WeatherActions from './weather.actions'
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map } from 'rxjs/operators';
+import { ActivatedRouteSnapshot } from '@angular/router';
+import { Action } from '@ngrx/store';
 
 @Injectable()
 export class WeatherEffects {
@@ -16,8 +18,9 @@ export class WeatherEffects {
     LoadWeather$ = createEffect(() => {
         return this.actions$.pipe(
             ofType(WeatherActions.WeatherActionTypes.LOAD_WEATHER),
-            mergeMap(() => this.weatherService.getWeather().pipe(
-                map((weather: Weather) => new WeatherActions.LoadWeatherSuccess(weather))
+            mergeMap((Actions: WeatherActions.LoadWeather) => this.weatherService.getWeatherByCity(Actions.city).pipe(
+                map((weather: Weather) => new WeatherActions.LoadWeatherSuccess(weather)),
+                map((action: Action) => action)
             ))
         );
     });

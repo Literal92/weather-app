@@ -7,11 +7,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./not-found.component.scss']
 })
 export class NotFoundComponent {
-  city: string;
 
-  constructor(route: ActivatedRoute) {
-    route.queryParams.subscribe((params) => {
-      this.city = params['city'];
-    });
-  }
+  constructor(route: ActivatedRoute) { }
 }
