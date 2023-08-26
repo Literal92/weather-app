@@ -33,11 +33,6 @@ This is a weather application built using Angular, RxJS, and NgRx. It integrates
 - Define actions, reducers, and effects to handle fetching weather data and updating the state accordingly.
 - Use selectors to retrieve specific weather data from the state.
 
-### Unit Testing and Test Coverage
-
-- Write unit tests using Angular's testing frameworks (e.g., Jasmine, Karma).
-- Aim for a high level of test coverage to ensure code reliability and maintainability.
-
 ### Performance Optimization
 
 - Optimize the application's performance by lazy-loading modules, using code splitting, and optimizing network requests.
