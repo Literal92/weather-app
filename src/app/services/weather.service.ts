@@ -8,9 +8,8 @@ import { WeatherIconsService } from '../shared/weather-icons.service';
 import { Weather } from '../interfaces/weather';
 import { apiConfig, appConfig } from '../config';
 import * as wiDataByCode from '../shared/weather-icons-codes.data.json';
-import { catchError, interval, map, Observable, startWith, Subject, switchMap, throwError } from 'rxjs';
+import { interval, map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
-
 @Injectable()
 export class WeatherService {
   private unitSystem: string;
@@ -54,12 +53,7 @@ export class WeatherService {
           this.hideLoader();
           resolve(weather.city);
 
-        },
-        (error) => {
-          this.hideLoader();
-          reject(error);
-        }
-      );
+        });
     });
   }
 
@@ -74,12 +68,7 @@ export class WeatherService {
         (weather) => {
           this.hideLoader();
           resolve(weather);
-        },
-        (error) => {
-          this.hideLoader();
-          reject(error);
-        }
-      );
+        });
     });
   }
 
@@ -94,8 +83,7 @@ export class WeatherService {
             const weather = this.handleResponseWeatherData(data);
             this.weather.next(weather);
             return weather;
-          }),
-          catchError(this.handleError)
+          })
         )
       )
     );
@@ -113,8 +101,7 @@ export class WeatherService {
 
             this.weather.next(weather);
             return weather;
-          }),
-          catchError(this.handleError)
+          })
         )
       )
     );
@@ -152,10 +139,6 @@ export class WeatherService {
       wind.speed,
       windBeaufortScale
     );
-  }
-
-  private handleError(error: any): Observable<any> {
-    return throwError(error.message || error);
   }
 
   private showLoader(): void {

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +21,8 @@ import { LoaderService } from './services/loader.service';
 import { HelperService } from './services/helper.service';
 import { WeatherIconsService } from './shared/weather-icons.service';
 import { HttpErrorInterceptor } from './services/interceptors/error-Interceptor.service';
+import { Router } from '@angular/router';
+import * as Sentry from "@sentry/angular-ivy";
 
 @NgModule({
   declarations: [
@@ -38,7 +40,7 @@ import { HttpErrorInterceptor } from './services/interceptors/error-Interceptor.
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    UiSwitchModule
+    UiSwitchModule,
   ],
   providers: [
     AppService,
@@ -49,7 +51,22 @@ import { HttpErrorInterceptor } from './services/interceptors/error-Interceptor.
     LoaderService,
     HelperService,
     WeatherIconsService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: true,
+      }),
+    }, {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })

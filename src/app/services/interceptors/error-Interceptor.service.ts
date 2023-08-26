@@ -2,9 +2,9 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Observable, throwError } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { LoaderService } from '../loader.service';
+import * as Sentry from '@sentry/angular-ivy';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -16,7 +16,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error) => {
         alert('An error happened during interaction with the server side');
-        return throwError(new Error(error));
+        this.loaderService.hide();
+        // Capture and send the error to Sentry
+        return throwError(Sentry.captureException(error));
       }),
     );
   }
