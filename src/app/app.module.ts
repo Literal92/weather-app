@@ -23,6 +23,10 @@ import { WeatherIconsService } from './shared/weather-icons.service';
 import { HttpErrorInterceptor } from './services/interceptors/error-Interceptor.service';
 import { Router } from '@angular/router';
 import * as Sentry from "@sentry/angular-ivy";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { WeatherReducer } from './store/weather.reducer';
+import { WeatherEffects } from './store/weather.effects';
 
 @NgModule({
   declarations: [
@@ -41,6 +45,9 @@ import * as Sentry from "@sentry/angular-ivy";
     AppRoutingModule,
     HttpClientModule,
     UiSwitchModule,
+    StoreModule.forRoot({}), 
+    StoreModule.forFeature('weater-app', WeatherReducer),
+    EffectsModule.forRoot(WeatherEffects)
   ],
   providers: [
     AppService,

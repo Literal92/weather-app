@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Resolve, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { empty, Observable } from 'rxjs';
 import { WeatherService } from './weather.service';
 
 
 @Injectable()
-export class ResolveLocationService implements Resolve<any> {
+export class ResolveLocationService  {
   constructor(
     private weatherService: WeatherService,
     private router: Router

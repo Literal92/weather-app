@@ -1,24 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AppService } from '../services/app.service';
 import { WeatherService } from '../services/weather.service';
 import { Weather } from '../interfaces/weather';
 import { Subscription } from 'rxjs';
+import { select, State, Store } from '@ngrx/store';
+import * as WeatherActions from '../store/weather.actions';
+import * as weatherReducer from '../store/weather.reducer';
 
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss']
 })
-export class WeatherComponent implements OnInit, OnDestroy {
+export class WeatherComponent implements OnInit {
   private _weatherSubscription: Subscription;
   weather: Weather;
   unitSystem: string;
 
   constructor(
     private appService: AppService,
-    private weatherService: WeatherService,
+    private store: Store<any>,
     private route: ActivatedRoute
   ) {
     this.unitSystem = appService.getUnitSystem();
@@ -31,12 +34,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
       }
     );
 
-    this._weatherSubscription = this.weatherService.getWeather().subscribe(weather => {
-      this.weather = weather;
-    });
+    this.store.dispatch(new WeatherActions.LoadWeather());
   }
 
-  ngOnDestroy() {
-    this._weatherSubscription.unsubscribe();
-  }
 }

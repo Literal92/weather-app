@@ -15,7 +15,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error) => {
-        alert('An error happened during interaction with the server side');
+        alert(error.message);
         this.loaderService.hide();
         // Capture and send the error to Sentry
         return throwError(Sentry.captureException(error));
